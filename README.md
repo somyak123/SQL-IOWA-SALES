@@ -20,3 +20,24 @@ group by ILS.category_name,ILS.county
 order by ILS.category_name desc , max(ILS.sale_dollars) desc 
 ```
 ![image](https://user-images.githubusercontent.com/87647923/130992238-dc9d6ac4-6d9a-4dc7-96d4-aca357d39ede.png)
+### Finding the average duratiion a bike has been rented from every station situated in given districts using left outter join
+```sql
+SELECT BS.station_id,BS.council_district, avg(BTR.duration_minutes) as Avg_duration
+FROM `bigquery-public-data.austin_bikeshare.bikeshare_stations` BS
+left outer join bigquery-public-data.austin_bikeshare.bikeshare_trips BTR on (BS.station_id=BTR.start_station_id)
+group by BS.council_district, BS.station_id
+order by BS.council_district, BS.station_id
+```
+![image](https://user-images.githubusercontent.com/87647923/131139447-cf6abb8b-2391-4414-bc0a-be715330752c.png)
+### Average duration of rent for bikes with different power types
+```sql
+SELECT BS.station_id,BS.power_type, avg(BTR.duration_minutes) as Avg_duration
+FROM `bigquery-public-data.austin_bikeshare.bikeshare_trips` BTR
+left outer join bigquery-public-data.austin_bikeshare.bikeshare_stations BS  on (BS.station_id=BTR.start_station_id)
+where BS.power_type is not null 
+group by BS.power_type, BS.station_id
+order by BS.power_type, BS.station_id
+```
+![image](https://user-images.githubusercontent.com/87647923/131145302-59135086-7c96-41de-8c39-b09ab4e87fca.png)
+
+
